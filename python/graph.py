@@ -19,10 +19,12 @@ class Graph:
         if self.__nodes.get(stop) is None:
             raise ValueError(f"Can't find stop `{stop}` in graph")
 
+        visited = set()
         queue = Queue()
-        queue.enqueue((0, self.__nodes[start], []))  # [(distance, curr, visited)]
+        queue.enqueue((0, self.__nodes[start]))  # [(distance, curr)]
         while len(queue) > 0:
-            distance_traveled, curr, visited = queue.dequeue()
+            distance_traveled, curr = queue.dequeue()
+            visited.add(curr)
             print(f"Visiting {curr.name} (travel distance = {distance_traveled} km)")
             if curr.name == stop:
                 print(f"Reached final destination")
@@ -31,7 +33,7 @@ class Graph:
                 if vertex.target in visited:
                     continue
                 queue.enqueue(
-                    (distance_traveled + vertex.weight, vertex.target, visited + [curr])
+                    (distance_traveled + vertex.weight, vertex.target)
                 )
 
         print("No path found")
@@ -42,10 +44,12 @@ class Graph:
         if self.__nodes.get(stop) is None:
             raise ValueError(f"Can't find stop `{stop}` in graph")
 
+        visited = set()
         stack = Stack()
-        stack.enqueue((0, self.__nodes[start], []))  # [(distance, curr, visited)]
+        stack.enqueue((0, self.__nodes[start]))  # [(distance, curr)]
         while len(stack) > 0:
-            distance_traveled, curr, visited = stack.dequeue()
+            distance_traveled, curr = stack.dequeue()
+            visited.add(curr)
             print(f"Visiting {curr.name} (travel distance = {distance_traveled} km)")
             if curr.name == stop:
                 print(f"Reached final destination")
@@ -54,7 +58,7 @@ class Graph:
                 if vertex.target in visited:
                     continue
                 stack.enqueue(
-                    (distance_traveled + vertex.weight, vertex.target, visited + [curr])
+                    (distance_traveled + vertex.weight, vertex.target)
                 )
 
         print("No path found")
