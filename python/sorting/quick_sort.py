@@ -4,7 +4,7 @@ def quick_sort(arr):
 
     left, pivot, right = [], [], []
     pivot.append(arr[0])
-    
+
     for i in arr[1:]:
         if i > pivot[0]:
             right.append(i)
@@ -18,9 +18,9 @@ def quick_sort(arr):
 
 if __name__ == "__main__":
     from time_counter import timeit
-    
+
     arr = [3, 2, 5, 4, 3, 12, 32, -2, 34, -54, 22]
     sorted_arr = quick_sort(arr)
     print(sorted_arr)
-    
+
     timeit(quick_sort)

@@ -6,13 +6,11 @@ def buble_sort(arr):
     return arr
 
 
-
 if __name__ == "__main__":
     from time_counter import timeit
-    
+
     arr = [3, 2, 5, 4, 3, 12, 32, -2, 34, -54, 22]
     sorted_arr = buble_sort(arr)
     print(sorted_arr)
-    
-    timeit(buble_sort)
 
+    timeit(buble_sort)

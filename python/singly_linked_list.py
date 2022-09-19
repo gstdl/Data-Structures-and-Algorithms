@@ -22,6 +22,14 @@ class LinkedList:
         else:
             self.head = node
 
+    def extend(self, values):
+        for v in values:
+            self.append(v)
+
+    def extend_flat(self, *args):
+        for v in args:
+            self.append(v)
+
     def insert(self, index: int, node: Node):
         if not isinstance(index, int):
             raise TypeError("index must be an integer bigger than 0")
@@ -103,8 +111,12 @@ if __name__ == "__main__":
 
     print(linked_list)
     linked_list.append(Node(2))
-    linked_list.append(Node(4))
-    linked_list.append(Node(10))
+    linked_list.extend([4, 10])
+    print(linked_list)
+    linked_list.pop(2)
+    linked_list.pop(1)
+    print(linked_list)
+    linked_list.extend_flat(4, 10)
     print(linked_list)
 
     linked_list.insert(1, Node(213))

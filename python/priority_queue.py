@@ -17,6 +17,7 @@ class PriorityQueue(list):
             super().append(value)
             return
 
+        # binary insertion
         low = 0
         if target <= self.key(self.__getitem__(low)):
             super().insert(low, value)
@@ -37,7 +38,7 @@ class PriorityQueue(list):
                 low = mid + 1
 
         super().append(value)
-        
+
     def extend(self, arr):
         for value in arr:
             self.enqueue(value)
