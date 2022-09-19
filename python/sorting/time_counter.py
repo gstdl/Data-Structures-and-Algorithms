@@ -23,3 +23,13 @@ def timeit(func, n=100000, repetition=10):
         / (len(times) - 1)
     ) ** 0.5
     print(f"Avg time: {avg_time:.2f} ± {std_time:.2f} s")
+
+
+if __name__ == "__main__":
+    from time_counter import timeit
+
+    arr = [3, 2, 5, 4, 3, 12, 32, -2, 34, -54, 22]
+    sorted_arr = sorted(arr)
+    print(sorted_arr)
+
+    timeit(sorted)
