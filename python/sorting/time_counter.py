@@ -3,10 +3,10 @@ from functools import reduce
 import time
 
 
-def timeit(func, repetition=10):
+def timeit(func, n=100000, repetition=10):
     times = []
     for seed in range(repetition):
-        arr = list(range(10000))
+        arr = list(range(n))
         random.seed(seed)
         random.shuffle(arr)
 
