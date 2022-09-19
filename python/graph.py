@@ -19,12 +19,10 @@ class Graph:
         if self.__nodes.get(stop) is None:
             raise ValueError(f"Can't find stop `{stop}` in graph")
 
-        visited = set()
         queue = Queue()
-        queue.enqueue((0, self.__nodes[start]))  # [(distance, curr)]
+        queue.enqueue((0, self.__nodes[start], []))  # [(distance, curr, visited)]
         while len(queue) > 0:
-            distance_traveled, curr = queue.dequeue()
-            visited.add(curr)
+            distance_traveled, curr, visited = queue.dequeue()
             print(f"Visiting {curr.name} (travel distance = {distance_traveled} km)")
             if curr.name == stop:
                 print(f"Reached final destination")
@@ -33,7 +31,7 @@ class Graph:
                 if vertex.target in visited:
                     continue
                 queue.enqueue(
-                    (distance_traveled + vertex.weight, vertex.target)
+                    (distance_traveled + vertex.weight, vertex.target, visited + [curr])
                 )
 
         print("No path found")
@@ -44,12 +42,10 @@ class Graph:
         if self.__nodes.get(stop) is None:
             raise ValueError(f"Can't find stop `{stop}` in graph")
 
-        visited = set()
         stack = Stack()
-        stack.enqueue((0, self.__nodes[start]))  # [(distance, curr)]
+        stack.enqueue((0, self.__nodes[start], []))  # [(distance, curr, visited)]
         while len(stack) > 0:
-            distance_traveled, curr = stack.dequeue()
-            visited.add(curr)
+            distance_traveled, curr, visited = stack.dequeue()
             print(f"Visiting {curr.name} (travel distance = {distance_traveled} km)")
             if curr.name == stop:
                 print(f"Reached final destination")
@@ -58,7 +54,7 @@ class Graph:
                 if vertex.target in visited:
                     continue
                 stack.enqueue(
-                    (distance_traveled + vertex.weight, vertex.target)
+                    (distance_traveled + vertex.weight, vertex.target, visited + [curr])
                 )
 
         print("No path found")
@@ -69,12 +65,12 @@ class Graph:
         if self.__nodes.get(stop) is None:
             raise ValueError(f"Can't find stop `{stop}` in graph")
 
+        visited = set()
+        visited.add(self.__nodes[start])
         priority_queue = PriorityQueue(key=lambda x: x[0])
-        priority_queue.enqueue(
-            (0, self.__nodes[start], [])
-        )  # [(distance, curr, visited)]
+        priority_queue.enqueue((0, self.__nodes[start]))  # [(distance, curr)]
         while len(priority_queue) > 0:
-            distance_traveled, curr, visited = priority_queue.dequeue()
+            distance_traveled, curr = priority_queue.dequeue()
             print(f"Visiting {curr.name} (travel distance = {distance_traveled} km)")
             if curr.name == stop:
                 print(f"Reached final destination")
@@ -83,8 +79,9 @@ class Graph:
                 if vertex.target in visited:
                     continue
                 priority_queue.enqueue(
-                    (distance_traveled + vertex.weight, vertex.target, visited + [curr])
+                    (distance_traveled + vertex.weight, vertex.target)
                 )
+                visited.add(vertex.target)
 
         print("No path found")
 
@@ -122,7 +119,7 @@ if __name__ == "__main__":
 
     avaiable_paths = [
         (frankfurt, mannheim, 85),
-        (frankfurt, wurzburg, 217),
+        # (frankfurt, wurzburg, 217),
         (frankfurt, kassel, 173),
         (mannheim, karlshure, 80),
         (karlshure, augsburg, 250),
@@ -148,7 +145,7 @@ if __name__ == "__main__":
 
     g.add_node(Node("Jakarta"))
 
-    g.bfs("Frankfurt", "Stuttgart")
+    g.bfs("Frankfurt", "Ertfurt")
     g.dfs("Frankfurt", "Ertfurt")
     g.djikstra("Frankfurt", "Ertfurt")
 
