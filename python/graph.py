@@ -1,19 +1,57 @@
+from typing import Union
 from queue import Queue
 from stack import Stack
 from priority_queue import PriorityQueue
+
+
+class Node:
+    def __init__(self, name):
+        self.name = name
+        self.vertices = []
+
+    def add_vertex(self, vertex):
+        if vertex in self.vertices:
+            # raise ValueError(f"Can't add duplicate vertex to node `{self.name}`")
+            return
+        self.vertices.append(vertex)
+
+
+class Vertex:
+    def __init__(self, target, weight=1):
+        if not isinstance(target, Node):
+            raise TypeError("Expecting Node object for argument `target`")
+        self.target = target
+        self.weight = weight
 
 
 class Graph:
     def __init__(self):
         self.__nodes = {}
 
-    def add_node(self, node):
+    def add_node(self, node: Node) -> None:
+        if not isinstance(node, Node):
+            raise TypeError("Expecting Node object for argument `node`")
         name = node.name
         if self.__nodes.get(name):
-            raise ValueError(f"`{name}` already in graph")
+            # raise ValueError(f"`{name}` already in graph")
+            return
         self.__nodes[name] = node
 
-    def bfs(self, start, stop):
+    def add_vertex(
+        self,
+        source: Node,
+        target: Node,
+        weight: Union[int, float] = 1,
+        is_directed: bool = False,
+    ) -> None:
+        if not is_directed:
+            target.add_vertex(Vertex(source, weight))
+        source.add_vertex(Vertex(target, weight))
+
+        self.add_node(source)
+        self.add_node(target)
+
+    def bfs(self, start: str, stop: str) -> None:
         if self.__nodes.get(start) is None:
             raise ValueError(f"Can't find start `{start}` in graph")
         if self.__nodes.get(stop) is None:
@@ -36,7 +74,7 @@ class Graph:
 
         print("No path found")
 
-    def dfs(self, start, stop):
+    def dfs(self, start: str, stop: str) -> None:
         if self.__nodes.get(start) is None:
             raise ValueError(f"Can't find start `{start}` in graph")
         if self.__nodes.get(stop) is None:
@@ -59,7 +97,7 @@ class Graph:
 
         print("No path found")
 
-    def djikstra(self, start, stop):
+    def djikstra(self, start: str, stop: str) -> None:
         if self.__nodes.get(start) is None:
             raise ValueError(f"Can't find start `{start}` in graph")
         if self.__nodes.get(stop) is None:
@@ -84,23 +122,6 @@ class Graph:
                 visited.add(vertex.target)
 
         print("No path found")
-
-
-class Node:
-    def __init__(self, name):
-        self.name = name
-        self.vertices = []
-
-    def add_vertex(self, vertex):
-        if vertex in self.vertices:
-            raise ValueError(f"Can't add duplicate vertex to node `{self.name}`")
-        self.vertices.append(vertex)
-
-
-class Vertex:
-    def __init__(self, target, weight=1):
-        self.target = target
-        self.weight = weight
 
 
 if __name__ == "__main__":
@@ -131,17 +152,8 @@ if __name__ == "__main__":
         (kassel, muenchen, 502),
     ]
 
-    nodes = set()
-    for node_a, node_b, distance in avaiable_paths:
-        node_a.add_vertex(Vertex(node_b, distance))
-        node_b.add_vertex(Vertex(node_a, distance))
-
-        nodes.add(node_a)
-        nodes.add(node_b)
-
-    for node in nodes:
-        # print(node.name)
-        g.add_node(node)
+    for target, source, distance in avaiable_paths:
+        g.add_vertex(target, source, distance)
 
     g.add_node(Node("Jakarta"))
 
