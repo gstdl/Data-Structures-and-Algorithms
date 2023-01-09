@@ -2,27 +2,15 @@ def insertion_sort(arr):
     if len(arr) < 2:
         return arr
     
-    new_arr = [arr[0]]
+    new_arr = []
 
-    for i in arr[1:]:
-        if i <= new_arr[0]:
-            new_arr.insert(0, i)
-            continue
-        if i >= new_arr[-1]:
-            new_arr.append(i)
-            continue
-        prev_value = new_arr[0]
-        for j, next_value in enumerate(new_arr[1:]):
-            if prev_value < i and next_value >= i:
-                new_arr.insert(j+1, i)
+    for pivot in arr:
+        i = 0
+        for val in new_arr:
+            if val >= pivot:
                 break
-            prev_value = next_value
-
-        ## the following loop gives the same result but less readable
-        # for (j, prev_value), next_value in zip(enumerate(new_arr[:-1]), new_arr[1:]):
-        #     if prev_value < i and next_value >= i:
-        #         new_arr.insert(j+1, i)
-        #         break
+            i += 1
+        new_arr.insert(i, pivot)
 
     return new_arr
 
