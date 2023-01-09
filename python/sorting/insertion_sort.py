@@ -1,18 +1,27 @@
+# def insertion_sort(arr):
+#     for i in range(1, len(arr)):
+#         j = i - 1
+#         pivot = arr[i]
+
+#         while arr[j] > pivot and j >= 0:
+#             arr[j+1] = arr[j]
+#             j -= 1
+#         arr[j+1] = pivot
+
+#     return arr
+
 def insertion_sort(arr):
-    if len(arr) < 2:
-        return arr
-    
-    new_arr = []
+    for i in range(1, len(arr)):
+        pivot = arr[i]
 
-    for pivot in arr:
-        i = 0
-        for val in new_arr:
-            if val >= pivot:
+        for j in range(i-1,-1,-1):
+            if arr[j] <= pivot:
                 break
-            i += 1
-        new_arr.insert(i, pivot)
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = pivot
 
-    return new_arr
+    return arr
 
 
 if __name__ == "__main__":
